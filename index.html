@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colour Mixing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="toggleTooltips">Show Tooltips</button>
+        <div class="grid-container">
+            <div class="color-strip Top-Primary" id="Top-Primary"><span class="tooltip">Tooltip Text</span></div>
+            <div class="color-strip Left-Primary" id="Left-Primary"><span class="tooltip">Tooltip Text</span></div>
+            <div class="color-strip Right-Primary" id="Right-Primary"><span class="tooltip">Tooltip Text</span></div>
+            <div class="Score-Box" id="Score-Box"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Top-Left" id="Top-Left"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Top-Middle" id="Top-Middle"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Top-Right" id="Top-Right"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Middle-Left" id="Middle-Left"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Centre" id="Centre"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Middle-Right" id="Middle-Right"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Bottom-Left" id="Bottom-Left"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Bottom-Middle" id="Bottom-Middle"><span class="tooltip">Tooltip Text</span></div>
+            <div class="grid-item Bottom-Right" id="Bottom-Right"><span class="tooltip">Tooltip Text</span></div>
+        </div>
+        <div class="color-key">
+            <ul>
+                <!-- Secondary Colors -->
+                <li>Orange: (Red + Yellow)</li>
+                <li>Green: (Blue + Yellow)</li>
+                <li>Purple: (Red + Blue)</li>
+            
+                <!-- Tertiary Colors -->
+                <li>Slate: (Green + Purple)</li>
+                <li>Russet: (Purple + Orange)</li>
+                <li>Citron: (Orange + Green)</li>
+            
+                <!-- Quaternary Colors -->
+                <li>Buff: (Russet + Citron)</li>
+                <li>Sage: (Citron + Slate)</li>
+                <li>Plum: (Slate + Russet)</li>
+            
+                <!-- Quinary Colors -->
+                <li>Mocha: (Sage + Plum)</li>
+                <li>Brass: (Plum + Buff)</li>
+                <li>Khaki: (Buff + Sage)</li>
+            </ul>
+            
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>

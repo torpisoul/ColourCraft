@@ -1,0 +1,143 @@
+:root {
+        --red: #FF0000;
+        --yellow: #FFFF00;
+        --blue: #0000FF;
+        --orange: #FF8000;
+        --green: #00FF00;
+        --purple: #CC00FF;
+        --slate: #708090;
+        --russet: #80461B;
+        --citron: #DDD06A;
+        --buff: #E0AB76;
+        --sage: #BCB88A;
+        --plum: #C2938D;
+        --mocha: #BFA78E;
+        --brass: #D1A083;
+        --khaki: #CFB482;
+        --background: #333;
+        --primaryLong: 64vw;
+        --primaryShort: 10vw;
+        --gridTile: 20vw;
+}
+body {
+    background-color: var(--background); /* Dark theme */
+    color: white;
+    font-family: Arial, sans-serif;
+}
+.grid-container {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    /*position: relative;*/
+}
+.grid-item {
+    height: var(--gridTile);
+    width: var(--gridTile);
+    background-color: #fff;
+    border: solid 1px white;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: grey 2px 2px, inset 2px 2px;
+}
+.color-strip {
+    font-size: large;
+    font-weight: bolder;
+    color: black;
+    border-radius: 1rem;
+    box-shadow: grey 2px 2px, inset 2px 2px;
+}
+.grid-space-tl {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+.grid-space-tr {
+    grid-column: 5 / 6;
+    grid-row: 1 / 2;
+}
+.grid-space-bl {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
+}
+.grid-space-br {
+    grid-column: 5 / 6;
+    grid-row: 5 / 6;
+}
+.Top-Primary { 
+    grid-column: 2 / 5;
+    grid-row: 1 / 2;
+    background-color: var(--yellow);
+    height: var(--primaryShort);
+    width: var(--primaryLong);
+}
+.Left-Primary {
+    grid-column: 1 / 2;
+    grid-row: 2 / 5;
+    background-color: var(--red);
+    height: var(--primaryLong);
+    width: var(--primaryShort);
+}
+.Right-Primary { 
+    grid-column: 5 / 6;
+    grid-row: 2 / 5;
+    background-color: var(--blue);
+    height: var(--primaryLong);
+    width: var(--primaryShort);
+}
+.Score-Box {
+    grid-column: 2 / 5;
+    grid-row: 5 / 6;
+    background-color: var(--background);
+    color: white;
+    height: calc(var(--primaryShort) * 2);
+    width: var(--primaryLong);
+    border-radius: 1rem;
+    box-shadow: grey 2px 2px, inset 2px 2px;
+}
+.Top-Left {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3; 
+}
+.Top-Middle {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+.Top-Right {
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+}
+.Middle-Left {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+.Centre {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}
+.Middle-Right {
+    grid-column: 4 / 5;
+    grid-row: 3 / 4;
+}
+.Bottom-Left {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+}
+.Bottom-Middle {
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
+}
+.Bottom-Right {
+    grid-column: 4 / 5;
+    grid-row: 4 / 5;
+}
+.tooltip {
+    visibility: hidden;
+    font-weight: bolder;
+    text-shadow: 0px 0px 5px black;
+}
+.grid-item:active .tooltip {
+    visibility: visible; /* Show tooltip on click and hold */
+}
+.show-tooltips .tooltip {
+    visibility: visible;
+}

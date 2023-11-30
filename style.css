@@ -15,29 +15,39 @@
         --brass: #D1A083;
         --khaki: #CFB482;
         --background: #333;
-        --primaryLong: 64vw;
-        --primaryShort: 10vw;
-        --gridTile: 20vw;
+        --primaryLong: 60vw;
+        --primaryShort: 9vw;
+        --gridTile: 19vw;
 }
 body {
     background-color: var(--background); /* Dark theme */
     color: white;
     font-family: Arial, sans-serif;
 }
+
+@media (min-width: 767px) {
+    :root {
+        --primaryLong: 48vh;
+        --primaryShort: 10vh;
+        --gridTile: 15vh;
+    }
+}
+
 .grid-container {
     display: grid;
     align-items: center;
     justify-items: center;
     justify-content: center;
-    /*position: relative;*/
 }
 .grid-item {
     height: var(--gridTile);
     width: var(--gridTile);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #fff;
     border: solid 1px white;
     border-radius: 1rem;
-    text-align: center;
     box-shadow: grey 2px 2px, inset 2px 2px;
 }
 .color-strip {

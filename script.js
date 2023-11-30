@@ -1,142 +1,136 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Add event listeners for drag and drop
     setupDragAndDrop();
+    updateDiscoveriesList();
 });
 
-// function resizeGrid() {
-//     const grid = document.querySelector('.grid-container');
-//     if (grid) {
-//         const viewportWidth = window.innerWidth;
-
-//         let gridWidth = viewportWidth * 0.8; // 80% of viewport width
-//         gridWidth = Math.min(gridWidth, 600); // max grid width
-
-//         console.log("Viewport width:", viewportWidth, "Calculated grid width:", gridWidth);
-
-//         grid.style.width = `${gridWidth}px`;
-//         grid.style.height = `${gridWidth}px`;
-//     }
-// }
-
-
-// // Run on initial load and on window resize
-// window.addEventListener('load', resizeGrid);
-// window.addEventListener('resize', resizeGrid);
-
-
+function capitaliseFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 // Default Colors
 const tileColor = '#ffffff';
 const badTile = '#000'
 
-// Primary Colors
-const red = '#ff0000';
-const yellow = '#ffff00';
-const blue = '#0000ff';
-
-// Secondary Colors
-const orange = '#ff8000'; // Red + Yellow
-const green = '#00ff00'; // Blue + Yellow
-const purple = '#cc00ff'; // Red + Blue
-
-// Tertiary Colors
-const slate = '#708090'; // Green + Purple
-const russet = '#80461b'; // Purple + Orange
-const citron = '#ddd06a'; // Orange + Green
-
-// Quaternary Colors
-const buff = '#e0ab76'; // Russet + Citron
-const sage = '#bcb88a'; // Citron + Slate
-const plum = '#c2938d'; // Slate + Russet
-
-// Quinary Colors
-const mocha = '#bfa78e'; // Sage + Plum
-const brass = '#d1A083'; // Plum + Buff
-const khaki = '#cfb482'; // Buff + Sage
+const colors = {
+    primary: {
+        red: '#ff0000',
+        yellow: '#ffff00',
+        blue: '#0000ff'
+    },
+    secondary: {
+        orange: '#ff8000',
+        green: '#00ff00',
+        purple: '#cc00ff'
+    },
+    tertiary: {
+        slate: '#708090',
+        russet: '#80461b',
+        citron: '#ddd06a'
+    },
+    quaternary: {
+        buff: '#e0ab76',
+        sage: '#bcb88a',
+        plum: '#c2938d'
+    },
+    quinary: {
+        mocha: '#bfa78e',
+        brass: '#d1A083',
+        khaki: '#cfb482'
+    }  
+}
 
 const colorCombinations = {
     // Primary
-    [red + '+' + '']: red,
-    [red + '+' + red]: red,
-    [yellow + '+' + '']: yellow,
-    [yellow + '+' + yellow]: yellow,
-    [blue + '+' + '']: blue,
-    [blue + '+' + blue]: blue,
+    [colors.primary.red + '+' + '']: colors.primary.red,
+    [colors.primary.red + '+' + colors.primary.red]: colors.primary.red,
+    [colors.primary.yellow + '+' + '']: colors.primary.yellow,
+    [colors.primary.yellow + '+' + colors.primary.yellow]: colors.primary.yellow,
+    [colors.primary.blue + '+' + '']: colors.primary.blue,
+    [colors.primary.blue + '+' + colors.primary.blue]: colors.primary.blue,
     // Primary to Secondary
-    [red + '+' + yellow]: orange,
-    [yellow + '+' + red]: orange,
-    [orange + '+' + orange]: orange,
-    [blue + '+' + yellow]: green,
-    [yellow + '+' + blue]: green,
-    [green + '+' + green]: green,
-    [red + '+' + blue]: purple,
-    [blue + '+' + red]: purple,
-    [purple + '+' + purple]: purple,
+    [colors.primary.red + '+' + colors.primary.yellow]: colors.secondary.orange,
+    [colors.primary.yellow + '+' + colors.primary.red]: colors.secondary.orange,
+    [colors.secondary.orange + '+' + colors.secondary.orange]: colors.secondary.orange,
+    [colors.primary.blue + '+' + colors.primary.yellow]: colors.secondary.green,
+    [colors.primary.yellow + '+' + colors.primary.blue]: colors.secondary.green,
+    [colors.secondary.green + '+' + colors.secondary.green]: colors.secondary.green,
+    [colors.primary.red + '+' + colors.primary.blue]: colors.secondary.purple,
+    [colors.primary.blue + '+' + colors.primary.red]: colors.secondary.purple,
+    [colors.secondary.purple + '+' + colors.secondary.purple]: colors.secondary.purple,
 
     // Secondary to Tertiary
-    [green + '+' + purple]: slate,
-    [purple + '+' + green]: slate,
-    [slate + '+' + slate]: slate,
-    [purple + '+' + orange]: russet,
-    [orange + '+' + purple]: russet,
-    [russet + '+' + russet]: russet,
-    [orange + '+' + green]: citron,
-    [green + '+' + orange]: citron,
-    [citron + '+' + citron]: citron,
+    [colors.secondary.green + '+' + colors.secondary.purple]: colors.tertiary.slate,
+    [colors.secondary.purple + '+' + colors.secondary.green]: colors.tertiary.slate,
+    [colors.tertiary.slate + '+' + colors.tertiary.slate]: colors.tertiary.slate,
+    [colors.secondary.purple + '+' + colors.secondary.orange]: colors.tertiary.russet,
+    [colors.secondary.orange + '+' + colors.secondary.purple]: colors.tertiary.russet,
+    [colors.tertiary.russet + '+' + colors.tertiary.russet]: colors.tertiary.russet,
+    [colors.secondary.orange + '+' + colors.secondary.green]: colors.tertiary.citron,
+    [colors.secondary.green + '+' + colors.secondary.orange]: colors.tertiary.citron,
+    [colors.tertiary.citron + '+' + colors.tertiary.citron]: colors.tertiary.citron,
 
     // Tertiary to Quaternary
-    [russet + '+' + citron]: buff,
-    [citron + '+' + russet]: buff,
-    [citron + '+' + slate]: sage,
-    [slate + '+' + citron]: sage,
-    [slate + '+' + russet]: plum,
-    [russet + '+' + slate]: plum,
+    [colors.tertiary.russet + '+' + colors.tertiary.citron]: colors.quaternary.buff,
+    [colors.tertiary.citron + '+' + colors.tertiary.russet]: colors.quaternary.buff,
+    [colors.tertiary.citron + '+' + colors.tertiary.slate]: colors.quaternary.sage,
+    [colors.tertiary.slate + '+' + colors.tertiary.citron]: colors.quaternary.sage,
+    [colors.tertiary.slate + '+' + colors.tertiary.russet]: colors.quaternary.plum,
+    [colors.tertiary.russet + '+' + colors.tertiary.slate]: colors.quaternary.plum,
 
     // Quaternary to Quinary
-    [sage + '+' + plum]: mocha,
-    [plum + '+' + sage]: mocha,
-    [plum + '+' + buff]: brass,
-    [buff + '+' + plum]: brass,
-    [buff + '+' + sage]: khaki,
-    [sage + '+' + buff]: khaki
+    [colors.quaternary.sage + '+' + colors.quaternary.plum]: colors.quinary.mocha,
+    [colors.quaternary.plum + '+' + colors.quaternary.sage]: colors.quinary.mocha,
+    [colors.quaternary.plum + '+' + colors.quaternary.buff]: colors.quinary.brass,
+    [colors.quaternary.buff + '+' + colors.quaternary.plum]: colors.quinary.brass,
+    [colors.quaternary.buff + '+' + colors.quaternary.sage]: colors.quinary.khaki,
+    [colors.quaternary.sage + '+' + colors.quaternary.buff]: colors.quinary.khaki
 };
 
 const colorRecipes = {
     // Primary Colors
-    [red]: "Primary: Mix me with another primary for a surprise.",
-    [yellow]: "Primary: I blend with primary colors to create something new.",
-    [blue]: "Primary: Combine me with a primary buddy for a vivid result.",
+    [colors.primary.red]: "Primary: Red",
+    [colors.primary.yellow]: "Primary: Yellow",
+    [colors.primary.blue]: "Primary: Blue",
 
     // Secondary Colors
-    [orange]: "Orange: Secondary<br>(Red + Yellow)",
-    [green]: "Green: Secondary<br>(Blue + Yellow)",
-    [purple]: "Purple: Secondary<br>(Blue + Red)",
+    [colors.secondary.orange]: "Orange: Secondary<br>(Red + Yellow)",
+    [colors.secondary.green]: "Green: Secondary<br>(Blue + Yellow)",
+    [colors.secondary.purple]: "Purple: Secondary<br>(Blue + Red)",
 
     // Tertiary Colors
-    [slate]: "Slate: Tertiary<br>(Green + Purple)",
-    [russet]: "Russet: Tertiary<br>(Orange + Purple)",
-    [citron]: "Citron: Tertiary<br>(Green + Orange)",
+    [colors.tertiary.slate]: "Slate: Tertiary<br>(Green + Purple)",
+    [colors.tertiary.russet]: "Russet: Tertiary<br>(Orange + Purple)",
+    [colors.tertiary.citron]: "Citron: Tertiary<br>(Green + Orange)",
 
     // Quaternary Colors
-    [buff]: "Buff: Quaternary<br>(Citron + Russet)",
-    [sage]: "Sage: Quaternary<br>(Citron + Slate)",
-    [plum]: "Plum: Quaternary<br>(Russet + Slate)",
+    [colors.quaternary.buff]: "Buff: Quaternary<br>(Citron + Russet)",
+    [colors.quaternary.sage]: "Sage: Quaternary<br>(Citron + Slate)",
+    [colors.quaternary.plum]: "Plum: Quaternary<br>(Russet + Slate)",
 
     // Quinary Colors
-    [mocha]: "Mocha: Quinary<br>(Sage + Plum)",
-    [brass]: "Brass: Quinary<br>(Buff + Plum)",
-    [khaki]: "Khaki: Quinary<br>(Buff + Sage)",
+    [colors.quinary.mocha]: "Mocha: Quinary<br>(Sage + Plum)",
+    [colors.quinary.brass]: "Brass: Quinary<br>(Buff + Plum)",
+    [colors.quinary.khaki]: "Khaki: Quinary<br>(Buff + Sage)",
 };
 
-document.querySelectorAll('.grid-item').forEach(item => {
-    updateTooltip(item, item.style.backgroundColor);
-    item.addEventListener('mousedown', function() {
-        this.querySelector('.tooltip').style.visibility = 'visible';
-    });
-    item.addEventListener('mouseup', function() {
-        this.querySelector('.tooltip').style.visibility = 'hidden';
-    });
-});
+let discoveredColors = {
+    [colors.primary.red]: true,
+    [colors.primary.yellow]: true,
+    [colors.primary.blue]: true,
+    [colors.secondary.orange]: false,
+    [colors.secondary.green]: false,
+    [colors.secondary.purple]: false,
+    [colors.tertiary.slate]: false,
+    [colors.tertiary.russet]: false,
+    [colors.tertiary.citron]: false,
+    [colors.quaternary.buff]: false,
+    [colors.quaternary.sage]: false,
+    [colors.quaternary.plum]: false,
+    [colors.quinary.mocha]: false,
+    [colors.quinary.brass]: false,
+    [colors.quinary.khaki]: false
+}
 
 function mixColors(color1, color2) {
     // Ensure hex values are in the correct case (e.g., uppercase)
@@ -209,14 +203,6 @@ function rgbToHex(rgb) {
     return '#' + hex;
 }
 
-function updateTooltip(gridItem, color) {
-    let tooltip = gridItem.querySelector('.tooltip');
-    if (tooltip) {
-        let hint = colorRecipes[color] || "No combinations available";
-        tooltip.textContent = hint;
-    }
-}
-
 function handleDrop(event) {
     event.preventDefault();
     let target = event.target;
@@ -244,11 +230,13 @@ function handleDrop(event) {
     // Mix colors
     const mixedColor = mixColors(draggedColor, targetColor) || '#663300'; // Brown for invalid mix
 
+    if (!discoveredColors[mixedColor]) {
+        discoveredColors[mixedColor] = true; // Mark this color as discovered
+        updateDiscoveriesList(); // Update the discoveries list
+    }
+
     if (targetColor) {
         target.style.backgroundColor = mixedColor;
-
-        // Update the tooltip text
-        updateTooltip(target, mixedColor.toLowerCase());
 
         // If the dragged color came from another grid item, reset that item
         if (event.dataTransfer.getData('source') === 'grid-item') {
@@ -269,14 +257,46 @@ function handleDrop(event) {
         if (sourceElement && sourceElement !== event.target) {
             // Reset the source element's color
             sourceElement.style.backgroundColor = ''; // Or set to default color
-            updateTooltip(sourceElement, ''); // Update tooltip for the source element
         }
     }
+}
 
-    let tooltip = target.querySelector('.tooltip');
-    if (tooltip) {
-        tooltip.innerHTML = colorRecipes[mixedColor] || 'No further combinations available';
+function updateGridItemColor(gridItem, colorHex) {
+    gridItem.style.backgroundColor = colorHex;
+    const colorName = getColorFromHex(colorHex); // Implement this function
+    gridItem.querySelector('.color-name').textContent = colorName || '';
+}
+
+function handleColorMix(discoveredColor) {
+    if (!discoveredColors[discoveredColor]) {
+        discoveredColors[discoveredColor] = true;
+        alert(`You've created ${discoveredColor}! Recipe added to your Discoveries.`);
+        updateDiscoveriesList(); // Update the discoveries list
     }
+}
+
+function updateDiscoveriesList() {
+    const list = document.getElementById('discoveriesList');
+    list.innerHTML = ''; // Clear the discoveries list
+
+    Object.keys(colorRecipes).forEach(color => {
+        const colorName = getColorFromHex(color); // Implement this function
+        const listItem = document.createElement('li');
+        listItem.textContent = discoveredColors[color] ? colorName : 'Undiscovered';
+        list.appendChild(listItem);
+    })
+}
+
+function getColorFromHex(hexValue) {
+    hexValue = hexValue.toLowerCase();
+    for (const category in colors) {
+        for (const colorName in colors[category]) {
+            if (colors[category][colorName] === hexValue) {
+                return capitaliseFirstLetter(colorName); // Return the color name
+            }
+        }
+    }
+    return 'Unknown Color'; // If no match found
 }
 
 
